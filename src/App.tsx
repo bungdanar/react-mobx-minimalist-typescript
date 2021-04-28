@@ -1,13 +1,13 @@
-import { HashRouter } from 'react-router-dom'
+import MainContent from './components/main-content/MainContent'
 import { AppRouteComponents } from './routes'
 
 function App() {
   return (
-    <HashRouter>
-      <div className="container-fluid">
+    <main>
+      <MainContent>
         <AppRouteComponents />
-      </div>
-    </HashRouter>
+      </MainContent>
+    </main>
   )
 }
 
