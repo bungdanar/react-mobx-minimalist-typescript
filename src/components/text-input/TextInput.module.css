@@ -1,0 +1,3 @@
+.textInput :global(.form-control:focus) {
+  box-shadow: none;
+}
