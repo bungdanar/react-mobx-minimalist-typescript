@@ -1,13 +1,17 @@
 import MainContent from './components/main-content/MainContent'
+import Navbar from './components/navbar/Navbar'
 import { AppRouteComponents } from './routes'
 
 function App() {
   return (
-    <main>
-      <MainContent>
-        <AppRouteComponents />
-      </MainContent>
-    </main>
+    <>
+      <Navbar />
+      <main>
+        <MainContent>
+          <AppRouteComponents />
+        </MainContent>
+      </main>
+    </>
   )
 }
 

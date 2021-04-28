@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Switch, Route, HashRouter } from 'react-router-dom'
 
 const LoginPage = lazy(() => import('./pages/login/Login'))
+const HomePage = lazy(() => import('./pages/home/Home'))
 
 const FallbackComponent = (): JSX.Element => (
   <div style={{ textAlign: 'center' }}>Loading...</div>
@@ -15,6 +16,7 @@ const AppRouteComponents = (): JSX.Element => (
     <HashRouter>
       <Switch>
         <Route path="/" exact render={() => <LoginPage />} />
+        <Route path="/home" exact render={() => <HomePage />} />
         <Route path="*" render={() => <NotFoundComponent />} />
       </Switch>
     </HashRouter>
