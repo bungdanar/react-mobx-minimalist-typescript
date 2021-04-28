@@ -1,18 +1,32 @@
+import { observer } from 'mobx-react-lite'
 import MainContent from './components/main-content/MainContent'
 import Navbar from './components/navbar/Navbar'
-import { AppRouteComponents } from './routes'
+import { useStore } from './hooks/use-store'
+import { AppRouteComponents, LoginRouteComponents } from './routes'
 
-function App() {
+const App = observer(() => {
+  const { isAppLoaded, currentUser } = useStore().userStore
+
+  if (!isAppLoaded) {
+    return <div style={{ textAlign: 'center' }}>Loading...</div>
+  }
+
+  let app: JSX.Element = <LoginRouteComponents />
+  let navbar: JSX.Element | null = null
+
+  if (currentUser) {
+    app = <AppRouteComponents />
+    navbar = <Navbar />
+  }
+
   return (
     <>
-      <Navbar />
+      {navbar}
       <main>
-        <MainContent>
-          <AppRouteComponents />
-        </MainContent>
+        <MainContent>{app}</MainContent>
       </main>
     </>
   )
-}
+})
 
 export default App

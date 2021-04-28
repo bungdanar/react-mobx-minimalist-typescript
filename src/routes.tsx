@@ -11,16 +11,26 @@ const NotFoundComponent = (): JSX.Element => (
   <div style={{ textAlign: 'center' }}>Page Not Found</div>
 )
 
-const AppRouteComponents = (): JSX.Element => (
+const LoginRouteComponents = (): JSX.Element => (
   <Suspense fallback={<FallbackComponent />}>
     <HashRouter>
       <Switch>
         <Route path="/" exact render={() => <LoginPage />} />
-        <Route path="/home" exact render={() => <HomePage />} />
         <Route path="*" render={() => <NotFoundComponent />} />
       </Switch>
     </HashRouter>
   </Suspense>
 )
 
-export { AppRouteComponents }
+const AppRouteComponents = (): JSX.Element => (
+  <Suspense fallback={<FallbackComponent />}>
+    <HashRouter>
+      <Switch>
+        <Route path="/" exact render={() => <HomePage />} />
+        <Route path="*" render={() => <NotFoundComponent />} />
+      </Switch>
+    </HashRouter>
+  </Suspense>
+)
+
+export { LoginRouteComponents, AppRouteComponents }

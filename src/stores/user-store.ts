@@ -3,7 +3,8 @@ import { User } from '../data-types/user'
 
 export class UserStore {
   @observable
-  isAppLoaded: boolean = false
+  // Initial value should be false
+  isAppLoaded: boolean = true
 
   @action
   setAppLoaded = (value: boolean) => {
