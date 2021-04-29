@@ -1,32 +1,33 @@
-import { observable, action, makeAutoObservable } from 'mobx'
+import { observable, action, makeObservable } from 'mobx'
 import { userApi } from '../api/user'
 import { User } from '../data-types/user'
 
 export class UserStore {
   constructor() {
-    makeAutoObservable(this)
+    makeObservable(this, {
+      isAppLoaded: observable,
+      setAppLoaded: action,
+      currentUser: observable,
+      setCurrentUser: action,
+      timeoutTimer: observable,
+      setTimeoutTimer: action,
+    })
   }
 
-  @observable
   isAppLoaded: boolean = false
 
-  @action
   setAppLoaded = (value: boolean) => {
     this.isAppLoaded = value
   }
 
-  @observable
   currentUser: User | null = null
 
-  @action
   setCurrentUser = (user: User | null): void => {
     this.currentUser = user
   }
 
-  @observable
   timeoutTimer: NodeJS.Timer | null = null
 
-  @action
   setTimeoutTimer = (timer: NodeJS.Timer) => {
     this.timeoutTimer = timer
   }
