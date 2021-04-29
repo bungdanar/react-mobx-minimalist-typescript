@@ -3,7 +3,7 @@ type ErrorPayload = {
   statusCode: number
 }
 
-class ResponseError extends Error {
+export class ResponseError extends Error {
   private statusCode: number
 
   constructor(payload: ErrorPayload) {
