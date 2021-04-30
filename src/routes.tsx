@@ -3,6 +3,9 @@ import { Switch, Route, HashRouter } from 'react-router-dom'
 
 const LoginPage = lazy(() => import('./pages/login/Login'))
 const HomePage = lazy(() => import('./pages/home/Home'))
+const ClientTablePage = lazy(
+  () => import('./pages/client-table/ClientTablePage')
+)
 
 const FallbackComponent = (): JSX.Element => (
   <div style={{ textAlign: 'center' }}>Loading...</div>
@@ -27,6 +30,7 @@ const AppRouteComponents = (): JSX.Element => (
     <HashRouter>
       <Switch>
         <Route path="/" exact render={() => <HomePage />} />
+        <Route path="/client-table" exact render={() => <ClientTablePage />} />
         <Route path="*" render={() => <NotFoundComponent />} />
       </Switch>
     </HashRouter>
