@@ -1,0 +1,7 @@
+.defaultColumnFilter :global(.form-control) {
+  font-size: 13px;
+}
+
+.defaultColumnFilter :global(.form-control:focus) {
+  box-shadow: none;
+}
