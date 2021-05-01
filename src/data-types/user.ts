@@ -8,3 +8,8 @@ export type User = {
   roles?: Role[] | undefined
   exp?: number
 }
+
+export type UserPaginated = {
+  rows: User[]
+  count: number
+}
