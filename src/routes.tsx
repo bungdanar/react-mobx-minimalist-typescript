@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Switch, Route, HashRouter } from 'react-router-dom'
+import { Switch, Route, HashRouter, Redirect } from 'react-router-dom'
 
 const LoginPage = lazy(() => import('./pages/login/Login'))
 const HomePage = lazy(() => import('./pages/home/Home'))
@@ -22,7 +22,7 @@ const LoginRouteComponents = (): JSX.Element => (
     <HashRouter>
       <Switch>
         <Route path='/' exact render={() => <LoginPage />} />
-        <Route path='*' render={() => <NotFoundComponent />} />
+        <Route path='*' render={() => <Redirect to='/' />} />
       </Switch>
     </HashRouter>
   </Suspense>
