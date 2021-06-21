@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useReducer, useRef } from 'react'
+import { observer } from 'mobx-react-lite'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Column } from 'react-table'
 import { userApi } from '../../api/user'
 import CustomCard from '../../components/custom-card/CustomCard'
 import ClientSideTable from '../../components/custom-table/client-side-table'
 import { User } from '../../data-types/user'
+import { useStore } from '../../hooks/use-store'
 import { generateErrMessage } from '../../utils/handle-error'
-import { ClientTableActionTypes } from './client-table-action'
-import { clientTableReducer, clientTableState } from './client-table-reducer'
 
-export default function ClientTablePage() {
-  const [state, dispatch] = useReducer(clientTableReducer, clientTableState)
+const ClientTablePage = observer(() => {
+  const { clientTableStore } = useStore()
   const isMounted = useRef(true)
 
   const columns: Column<User>[] = useMemo(
@@ -24,41 +24,28 @@ export default function ClientTablePage() {
     []
   )
 
-  const handleFetchData = async () => {
+  const handleFetchData = useCallback(async () => {
     if (isMounted.current) {
-      dispatch({
-        type: ClientTableActionTypes.FetchDataInit,
-      })
+      clientTableStore.handleFetchInit()
     }
 
     try {
       const { data } = await userApi.getAll()
 
       if (isMounted.current) {
-        dispatch({
-          type: ClientTableActionTypes.FetchDataSucceed,
-          payload: {
-            data,
-          },
-        })
+        clientTableStore.handleFetchSucceed(data)
       }
     } catch (error) {
       if (isMounted.current) {
         const errMessage = generateErrMessage(error)
-
-        dispatch({
-          type: ClientTableActionTypes.FetchDataFailed,
-          payload: {
-            errMessage,
-          },
-        })
+        clientTableStore.handleFetchFailed(errMessage)
       }
     }
-  }
+  }, [clientTableStore])
 
   useEffect(() => {
     handleFetchData()
-  }, [])
+  }, [handleFetchData])
 
   useEffect(() => {
     return () => {
@@ -72,13 +59,18 @@ export default function ClientTablePage() {
         <CustomCard>
           <div>User Management</div>
           {(function () {
-            if (state.loading) {
+            if (clientTableStore.loading) {
               return <div>Loading...</div>
             } else {
-              if (state.errMessage.trim() !== '') {
-                return <div>{state.errMessage}</div>
+              if (clientTableStore.errMessage.trim() !== '') {
+                return <div>{clientTableStore.errMessage}</div>
               } else {
-                return <ClientSideTable columns={columns} data={state.data} />
+                return (
+                  <ClientSideTable
+                    columns={columns}
+                    data={clientTableStore.data}
+                  />
+                )
               }
             }
           })()}
@@ -86,4 +78,6 @@ export default function ClientTablePage() {
       </div>
     </div>
   )
-}
+})
+
+export default ClientTablePage
