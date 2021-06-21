@@ -7,7 +7,7 @@ import {
   handleCloseSwal,
   loadingSwal,
 } from '../../utils/custom-swal'
-import { ResponseError } from '../../utils/handle-response-err'
+import { generateErrMessage } from '../../utils/handle-error'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -24,7 +24,9 @@ export default function LoginPage() {
       handleCloseSwal()
     } catch (error) {
       handleCloseSwal()
-      await errorSwal((error as ResponseError).serialize().message)
+
+      const errMessage = generateErrMessage(error)
+      await errorSwal(errMessage)
     }
   }
 

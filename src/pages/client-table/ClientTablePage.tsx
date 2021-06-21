@@ -4,7 +4,7 @@ import { userApi } from '../../api/user'
 import CustomCard from '../../components/custom-card/CustomCard'
 import ClientSideTable from '../../components/custom-table/client-side-table'
 import { User } from '../../data-types/user'
-import { ResponseError } from '../../utils/handle-response-err'
+import { generateErrMessage } from '../../utils/handle-error'
 import { ClientTableActionTypes } from './client-table-action'
 import { clientTableReducer, clientTableState } from './client-table-reducer'
 
@@ -44,10 +44,12 @@ export default function ClientTablePage() {
       }
     } catch (error) {
       if (isMounted.current) {
+        const errMessage = generateErrMessage(error)
+
         dispatch({
           type: ClientTableActionTypes.FetchDataFailed,
           payload: {
-            errMessage: (error as ResponseError).serialize().message,
+            errMessage,
           },
         })
       }
@@ -65,8 +67,8 @@ export default function ClientTablePage() {
   }, [])
 
   return (
-    <div className="row justify-content-center">
-      <div className="col-sm-8">
+    <div className='row justify-content-center'>
+      <div className='col-sm-8'>
         <CustomCard>
           <div>User Management</div>
           {(function () {

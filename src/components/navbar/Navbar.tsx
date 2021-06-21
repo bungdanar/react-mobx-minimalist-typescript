@@ -7,7 +7,7 @@ import {
   handleCloseSwal,
   loadingSwal,
 } from '../../utils/custom-swal'
-import { ResponseError } from '../../utils/handle-response-err'
+import { generateErrMessage } from '../../utils/handle-error'
 import styles from './Navbar.module.css'
 
 const Navbar = observer(() => {
@@ -23,7 +23,9 @@ const Navbar = observer(() => {
       handleCloseSwal()
     } catch (error) {
       handleCloseSwal()
-      await errorSwal((error as ResponseError).serialize().message)
+
+      const errMessage = generateErrMessage(error)
+      await errorSwal(errMessage)
     }
   }
 

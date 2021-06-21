@@ -31,3 +31,20 @@ export const handleResponseErr = (err: any) => {
     })
   }
 }
+
+// This function must be called inside the catch block
+export const generateErrMessage = (error: Error): string => {
+  let errMessage
+
+  if (error instanceof ResponseError) {
+    errMessage = error.serialize().message
+  } else {
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(error)
+    }
+
+    errMessage = error.message
+  }
+
+  return errMessage
+}

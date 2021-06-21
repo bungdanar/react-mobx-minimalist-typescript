@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-import { handleResponseErr } from './handle-response-err'
+import { handleResponseErr } from './handle-error'
 
 const SERVER_BASE_URL =
   process.env.NODE_ENV === 'production'

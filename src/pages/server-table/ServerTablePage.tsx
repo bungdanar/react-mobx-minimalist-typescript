@@ -7,7 +7,7 @@ import ServerSideTable, {
 } from '../../components/custom-table/server-side-table'
 import { CriteriaModifier } from '../../data-types/criteria-modifier'
 import { User } from '../../data-types/user'
-import { ResponseError } from '../../utils/handle-response-err'
+import { generateErrMessage } from '../../utils/handle-error'
 import { ServerTableActionTypes } from './server-table-action'
 import { serverTableReducer, serverTableState } from './server-table-reducer'
 
@@ -85,10 +85,12 @@ export default function ServerTablePage() {
           }
         } catch (error) {
           if (isMounted.current) {
+            const errMessage = generateErrMessage(error)
+
             dispatch({
               type: ServerTableActionTypes.FetchDataFailed,
               payload: {
-                errMessage: (error as ResponseError).serialize().message,
+                errMessage,
               },
             })
           }
