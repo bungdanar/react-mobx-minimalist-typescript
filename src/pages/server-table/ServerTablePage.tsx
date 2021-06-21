@@ -5,6 +5,7 @@ import CustomCard from '../../components/custom-card/CustomCard'
 import ServerSideTable, {
   FetchDataProps,
 } from '../../components/custom-table/server-side-table'
+import { CriteriaModifier } from '../../data-types/criteria-modifier'
 import { User } from '../../data-types/user'
 import { ResponseError } from '../../utils/handle-response-err'
 import { ServerTableActionTypes } from './server-table-action'
@@ -14,7 +15,7 @@ interface UserParams {
   limit: number
   offset: number
   sort: string[]
-  name?: string
+  name?: CriteriaModifier<string>
 }
 
 export default function ServerTablePage() {
@@ -54,7 +55,9 @@ export default function ServerTablePage() {
         const f = filters[i]
 
         if (f.id === 'name') {
-          params.name = f.value
+          params.name = {
+            contains: f.value,
+          }
         }
       }
 
@@ -114,7 +117,7 @@ export default function ServerTablePage() {
             pageCount={state.pageCount}
             rowCount={state.rowCount}
             errMessage={state.errMessage}
-            maxSizePerPage={1}
+            maxSizePerPage={5}
           />
         </CustomCard>
       </div>
