@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
+import { observer } from 'mobx-react-lite'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Column } from 'react-table'
 import { userApi } from '../../api/user'
 import CustomCard from '../../components/custom-card/CustomCard'
@@ -7,9 +8,8 @@ import ServerSideTable, {
 } from '../../components/custom-table/server-side-table'
 import { CriteriaModifier } from '../../data-types/criteria-modifier'
 import { User } from '../../data-types/user'
+import { useStore } from '../../hooks/use-store'
 import { generateErrMessage } from '../../utils/handle-error'
-import { ServerTableActionTypes } from './server-table-action'
-import { serverTableReducer, serverTableState } from './server-table-reducer'
 
 interface UserParams {
   limit: number
@@ -18,8 +18,9 @@ interface UserParams {
   name?: CriteriaModifier<string>
 }
 
-export default function ServerTablePage() {
-  const [state, dispatch] = useReducer(serverTableReducer, serverTableState)
+const ServerTablePage = observer(() => {
+  const { serverTableStore } = useStore()
+
   const fetchIdRef = useRef(0)
   const isMounted = useRef(true)
 
@@ -64,9 +65,7 @@ export default function ServerTablePage() {
       const fetchId = ++fetchIdRef.current
 
       if (isMounted.current) {
-        dispatch({
-          type: ServerTableActionTypes.FetchDataInit,
-        })
+        serverTableStore.handleFetchInit()
       }
 
       if (fetchId === fetchIdRef.current) {
@@ -74,30 +73,21 @@ export default function ServerTablePage() {
           const { data } = await userApi.getAllPaginated(params)
 
           if (isMounted.current) {
-            dispatch({
-              type: ServerTableActionTypes.FetchDataSucceed,
-              payload: {
-                data: data.rows,
-                pageCount: Math.ceil(data.count / pageSize),
-                rowCount: data.count,
-              },
-            })
+            serverTableStore.handleFetchSucceed(
+              data.rows,
+              Math.ceil(data.count / pageSize),
+              data.count
+            )
           }
         } catch (error) {
           if (isMounted.current) {
             const errMessage = generateErrMessage(error)
-
-            dispatch({
-              type: ServerTableActionTypes.FetchDataFailed,
-              payload: {
-                errMessage,
-              },
-            })
+            serverTableStore.handleFetchFailed(errMessage)
           }
         }
       }
     },
-    [fetchIdRef]
+    [fetchIdRef, serverTableStore]
   )
 
   useEffect(() => {
@@ -113,16 +103,18 @@ export default function ServerTablePage() {
           <div>User Management</div>
           <ServerSideTable
             columns={columns}
-            data={state.data}
+            data={serverTableStore.data}
             fetchData={fetchData}
-            loading={state.loading}
-            pageCount={state.pageCount}
-            rowCount={state.rowCount}
-            errMessage={state.errMessage}
+            loading={serverTableStore.loading}
+            pageCount={serverTableStore.pageCount}
+            rowCount={serverTableStore.rowCount}
+            errMessage={serverTableStore.errMessage}
             maxSizePerPage={5}
           />
         </CustomCard>
       </div>
     </div>
   )
-}
+})
+
+export default ServerTablePage
