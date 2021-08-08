@@ -47,8 +47,8 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div>
-              <button type='submit' className='btn btn-primary btn-block'>
+            <div className='d-grid gap-1'>
+              <button type='submit' className='btn btn-primary'>
                 Login
               </button>
             </div>

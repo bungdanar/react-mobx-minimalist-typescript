@@ -29,16 +29,12 @@ export default function TablePagination({
         Page {pageIndex + 1} of {pageOptions.length}
       </div>
       <div className={styles.paginationSection}>
-        <div className="input-group">
-          <div
-            className={['input-group-prepend', styles.verticalCenterText].join(
-              ' '
-            )}
-          >
+        <div className='input-group'>
+          <div className={styles.verticalCenterText}>
             <span>Go to Page</span>
           </div>
           <input
-            type="number"
+            type='number'
             defaultValue={pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0

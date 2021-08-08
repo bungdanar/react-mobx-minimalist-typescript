@@ -6,12 +6,12 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default function TextInput(props: TextInputProps) {
-  const inputStyles = ['form-group', styles.textInput]
+  const inputStyles = ['mb-3', styles.textInput]
 
   return (
     <div className={inputStyles.join(' ')}>
-      <label>{props.label}</label>
-      <input className="form-control" {...props} />
+      <label className='form-label'>{props.label}</label>
+      <input className='form-control' {...props} />
     </div>
   )
 }

@@ -31,12 +31,14 @@ const Navbar = observer(() => {
 
   return (
     <nav className={rootStyles.join(' ')}>
-      <div className='navbar-brand'>Navbar</div>
-      <div className='d-flex justify-content-end '>
-        <div className='navbar-brand'>{currentUser?.name}</div>
-        <SessionCountdown />
-        <div className={logoutStyles.join(' ')} onClick={handleLogout}>
-          Logout
+      <div className='container-fluid'>
+        <div className='navbar-brand'>Navbar</div>
+        <div className='d-flex justify-content-end'>
+          <div className='navbar-brand'>{currentUser?.name}</div>
+          <SessionCountdown />
+          <div className={logoutStyles.join(' ')} onClick={handleLogout}>
+            Logout
+          </div>
         </div>
       </div>
     </nav>
