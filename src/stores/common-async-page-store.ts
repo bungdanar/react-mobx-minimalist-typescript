@@ -1,36 +1,37 @@
 import { action, makeObservable, observable } from 'mobx'
 
-export class CommonServerDataPageStore {
+export class CommonAsyncPageStore {
   constructor() {
     makeObservable(this, {
       pageLoading: observable,
       pageErrMessage: observable,
+
+      handleResetPageState: action,
+      handleFetchPageDataInit: action,
+      handleFetchPageDataSucceed: action,
+      handleFetchPageDataFailed: action,
     })
   }
 
   pageLoading: boolean = false
   pageErrMessage: string = ''
 
-  // Non-annotated instance fields are overridable
-  handleResetPageState = action(() => {
+  handleResetPageState = () => {
     this.pageLoading = false
     this.pageErrMessage = ''
-  })
+  }
 
-  // Non-annotated instance fields are overridable
-  handleFetchPageDataInit = action(() => {
+  handleFetchPageDataInit = () => {
     this.pageLoading = true
     this.pageErrMessage = ''
-  })
+  }
 
-  // Non-annotated instance fields are overridable
-  handleFetchPageDataSucceed = action(() => {
+  handleFetchPageDataSucceed = () => {
     this.pageLoading = false
-  })
+  }
 
-  // Non-annotated instance fields are overridable
-  handleFetchPageDataFailed = action((errMessage: string) => {
+  handleFetchPageDataFailed = (errMessage: string) => {
     this.pageLoading = false
     this.pageErrMessage = errMessage
-  })
+  }
 }
