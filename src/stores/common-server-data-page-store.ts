@@ -5,33 +5,32 @@ export class CommonServerDataPageStore {
     makeObservable(this, {
       pageLoading: observable,
       pageErrMessage: observable,
-
-      handleResetPageState: action,
-      handleFetchPageDataInit: action,
-      handleFetchPageDataSucceed: action,
-      handleFetchPageDataFailed: action,
     })
   }
 
   pageLoading: boolean = false
   pageErrMessage: string = ''
 
-  handleResetPageState = () => {
+  // Non-annotated instance fields are overridable
+  handleResetPageState = action(() => {
     this.pageLoading = false
     this.pageErrMessage = ''
-  }
+  })
 
-  handleFetchPageDataInit = () => {
+  // Non-annotated instance fields are overridable
+  handleFetchPageDataInit = action(() => {
     this.pageLoading = true
     this.pageErrMessage = ''
-  }
+  })
 
-  handleFetchPageDataSucceed = () => {
+  // Non-annotated instance fields are overridable
+  handleFetchPageDataSucceed = action(() => {
     this.pageLoading = false
-  }
+  })
 
-  handleFetchPageDataFailed = (errMessage: string) => {
+  // Non-annotated instance fields are overridable
+  handleFetchPageDataFailed = action((errMessage: string) => {
     this.pageLoading = false
     this.pageErrMessage = errMessage
-  }
+  })
 }
