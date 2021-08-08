@@ -1,36 +1,19 @@
-import { action, makeObservable, observable } from 'mobx'
 import { User } from '../data-types/user'
+import { CommonAsyncPageStore } from './common-async-page-store'
+import { CommonClientSideTableStore } from './common-client-side-table-store'
 
 export class ClientTablePageStore {
+  tableDataStore
+  pageDataStore
+
   constructor() {
-    makeObservable(this, {
-      data: observable,
-      loading: observable,
-      errMessage: observable,
-
-      handleFetchInit: action,
-      handleFetchSucceed: action,
-      handleFetchFailed: action,
-    })
+    this.tableDataStore = new CommonClientSideTableStore<User>()
+    this.pageDataStore = new CommonAsyncPageStore()
   }
 
-  data: User[] = []
-  loading: boolean = true
-  errMessage: string = ''
-
-  handleFetchInit = () => {
-    this.loading = true
-    this.errMessage = ''
-  }
-
-  handleFetchSucceed = (data: User[]) => {
-    this.loading = false
-    this.data = data
-  }
-
-  handleFetchFailed = (errMessage: string) => {
-    this.loading = false
-    this.errMessage = errMessage
+  wrapperForSucceedFetch = (data: User[]) => {
+    this.pageDataStore.handleFetchPageDataSucceed()
+    this.tableDataStore.handleSetTableData(data)
   }
 }
 

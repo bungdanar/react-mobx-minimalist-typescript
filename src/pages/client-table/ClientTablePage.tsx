@@ -9,7 +9,13 @@ import { useStore } from '../../hooks/use-store'
 import { generateErrMessage } from '../../utils/handle-error'
 
 const ClientTablePage = observer(() => {
-  const { clientTablePageStore } = useStore()
+  const {
+    clientTablePageStore: {
+      wrapperForSucceedFetch,
+      pageDataStore,
+      tableDataStore,
+    },
+  } = useStore()
   const isMounted = useRef(true)
 
   const columns: Column<User>[] = useMemo(
@@ -26,22 +32,22 @@ const ClientTablePage = observer(() => {
 
   const handleFetchData = useCallback(async () => {
     if (isMounted.current) {
-      clientTablePageStore.handleFetchInit()
+      pageDataStore.handleFetchPageDataInit()
     }
 
     try {
       const { data } = await userApi.getAll()
 
       if (isMounted.current) {
-        clientTablePageStore.handleFetchSucceed(data)
+        wrapperForSucceedFetch(data)
       }
     } catch (error) {
       if (isMounted.current) {
         const errMessage = generateErrMessage(error)
-        clientTablePageStore.handleFetchFailed(errMessage)
+        pageDataStore.handleFetchPageDataFailed(errMessage)
       }
     }
-  }, [clientTablePageStore])
+  }, [pageDataStore, wrapperForSucceedFetch])
 
   useEffect(() => {
     handleFetchData()
@@ -59,16 +65,16 @@ const ClientTablePage = observer(() => {
         <CustomCard>
           <div>User Management</div>
           {(function () {
-            if (clientTablePageStore.loading) {
+            if (pageDataStore.pageLoading) {
               return <div>Loading...</div>
             } else {
-              if (clientTablePageStore.errMessage.trim() !== '') {
-                return <div>{clientTablePageStore.errMessage}</div>
+              if (pageDataStore.pageErrMessage.trim() !== '') {
+                return <div>{pageDataStore.pageErrMessage}</div>
               } else {
                 return (
                   <ClientSideTable
                     columns={columns}
-                    data={clientTablePageStore.data}
+                    data={tableDataStore.tableData}
                   />
                 )
               }
