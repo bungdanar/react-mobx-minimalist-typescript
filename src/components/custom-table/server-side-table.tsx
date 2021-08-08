@@ -16,6 +16,7 @@ import TableHead from './table-head/TableHead'
 import TableBody from './table-body/TableBody'
 import TablePagination from './table-pagination/TablePagination'
 import DefaultColumnFilter from './default-column-filter/DefaultColumnFilter'
+import CoverSpinner from '../cover-spinner/CoverSpinner'
 
 export interface FetchDataProps<T extends object> {
   pageIndex: number
@@ -108,21 +109,23 @@ const ServerSideTable = <T extends object>({
 
   return (
     <div>
-      <TableContainer getTableProps={getTableProps}>
-        <TableHead headerGroups={headerGroups} />
-        <TableBody
-          getTableBodyProps={getTableBodyProps}
-          page={page}
-          prepareRow={prepareRow}
-          getRowProps={getRowProps}
-        >
-          <tr>
-            <td colSpan={10000}>
-              Showing {page.length} of {rowCount} results
-            </td>
-          </tr>
-        </TableBody>
-      </TableContainer>
+      <CoverSpinner isLoading={loading} errMessage={errMessage}>
+        <TableContainer getTableProps={getTableProps}>
+          <TableHead headerGroups={headerGroups} />
+          <TableBody
+            getTableBodyProps={getTableBodyProps}
+            page={page}
+            prepareRow={prepareRow}
+            getRowProps={getRowProps}
+          >
+            <tr>
+              <td colSpan={10000}>
+                Showing {page.length} of {rowCount} results
+              </td>
+            </tr>
+          </TableBody>
+        </TableContainer>
+      </CoverSpinner>
       <TablePagination
         canNextPage={canNextPage}
         canPreviousPage={canPreviousPage}
