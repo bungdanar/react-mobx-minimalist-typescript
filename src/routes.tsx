@@ -1,5 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Switch, Route, HashRouter, Redirect } from 'react-router-dom'
+import Center from './components/center/Center'
+import CustomLoader from './components/custom-loader/CustomLoader'
 
 const LoginPage = lazy(() => import('./pages/login/Login'))
 const HomePage = lazy(() => import('./pages/home/Home'))
@@ -11,11 +13,11 @@ const ServerTablePage = lazy(
 )
 
 const FallbackComponent = (): JSX.Element => (
-  <div style={{ textAlign: 'center' }}>Loading...</div>
+  <Center>
+    <CustomLoader size={50} />
+  </Center>
 )
-const NotFoundComponent = (): JSX.Element => (
-  <div style={{ textAlign: 'center' }}>Page Not Found</div>
-)
+const NotFoundComponent = (): JSX.Element => <Center>Page Not Found</Center>
 
 const LoginRouteComponents = (): JSX.Element => (
   <Suspense fallback={<FallbackComponent />}>
