@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from 'mobx'
 import { User } from '../data-types/user'
 
-export class ClientTableStore {
+export class ClientTablePageStore {
   constructor() {
     makeObservable(this, {
       data: observable,
@@ -34,4 +34,4 @@ export class ClientTableStore {
   }
 }
 
-export default new ClientTableStore()
+export default new ClientTablePageStore()

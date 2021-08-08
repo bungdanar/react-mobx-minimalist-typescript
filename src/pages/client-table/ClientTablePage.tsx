@@ -9,7 +9,7 @@ import { useStore } from '../../hooks/use-store'
 import { generateErrMessage } from '../../utils/handle-error'
 
 const ClientTablePage = observer(() => {
-  const { clientTableStore } = useStore()
+  const { clientTablePageStore } = useStore()
   const isMounted = useRef(true)
 
   const columns: Column<User>[] = useMemo(
@@ -26,22 +26,22 @@ const ClientTablePage = observer(() => {
 
   const handleFetchData = useCallback(async () => {
     if (isMounted.current) {
-      clientTableStore.handleFetchInit()
+      clientTablePageStore.handleFetchInit()
     }
 
     try {
       const { data } = await userApi.getAll()
 
       if (isMounted.current) {
-        clientTableStore.handleFetchSucceed(data)
+        clientTablePageStore.handleFetchSucceed(data)
       }
     } catch (error) {
       if (isMounted.current) {
         const errMessage = generateErrMessage(error)
-        clientTableStore.handleFetchFailed(errMessage)
+        clientTablePageStore.handleFetchFailed(errMessage)
       }
     }
-  }, [clientTableStore])
+  }, [clientTablePageStore])
 
   useEffect(() => {
     handleFetchData()
@@ -59,16 +59,16 @@ const ClientTablePage = observer(() => {
         <CustomCard>
           <div>User Management</div>
           {(function () {
-            if (clientTableStore.loading) {
+            if (clientTablePageStore.loading) {
               return <div>Loading...</div>
             } else {
-              if (clientTableStore.errMessage.trim() !== '') {
-                return <div>{clientTableStore.errMessage}</div>
+              if (clientTablePageStore.errMessage.trim() !== '') {
+                return <div>{clientTablePageStore.errMessage}</div>
               } else {
                 return (
                   <ClientSideTable
                     columns={columns}
-                    data={clientTableStore.data}
+                    data={clientTablePageStore.data}
                   />
                 )
               }

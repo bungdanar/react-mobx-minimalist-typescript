@@ -1,27 +1,27 @@
 import { configure } from 'mobx'
 import { createContext, FC } from 'react'
 import userStore, { UserStore } from '../stores/user-store'
-import clientTableStore, {
-  ClientTableStore,
-} from '../stores/client-table-store'
 import serverTablePageStore, {
   ServerTablePageStore,
 } from '../stores/server-table-page-store'
+import clientTablePageStore, {
+  ClientTablePageStore,
+} from '../stores/client-table-page-store'
 
 configure({ enforceActions: 'observed' })
 
 export const StoreContext = createContext<{
   userStore: UserStore
-  clientTableStore: ClientTableStore
+  clientTablePageStore: ClientTablePageStore
   serverTablePageStore: ServerTablePageStore
-}>({ userStore, clientTableStore, serverTablePageStore })
+}>({ userStore, clientTablePageStore, serverTablePageStore })
 
 export const StoreProvider: FC = ({ children }) => {
   return (
     <StoreContext.Provider
       value={{
         userStore,
-        clientTableStore,
+        clientTablePageStore,
         serverTablePageStore,
       }}
     >
