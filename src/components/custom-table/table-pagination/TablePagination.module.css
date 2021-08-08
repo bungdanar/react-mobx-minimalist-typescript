@@ -1,34 +1,14 @@
 .tablePagination {
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   font-size: 14px;
   font-weight: 600;
   color: #6c757d;
+  padding: 0.5rem;
 }
 
-.tablePagination .verticalCenterText {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.tablePagination .paginationSection {
-  display: flex;
-  flex-direction: row;
-}
-
-.tablePagination .paginationSection div:first-child,
-.tablePagination .paginationSection div:nth-child(2) {
-  margin-right: 5px;
-}
-
-.tablePagination .paginationSection .goToPageInput {
-  width: 60px;
+.tablePagination .goToPageInput {
   font-size: 13px;
 }
 
-.tablePagination .btnPagination {
-  font-size: 13px;
+.tablePagination :global(.form-control:focus) {
+  box-shadow: none;
 }
