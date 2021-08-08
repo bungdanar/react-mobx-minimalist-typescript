@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import CustomCard from '../../components/custom-card/CustomCard'
+import CustomDivider from '../../components/custom-divider/CustomDivider'
 import TextInput from '../../components/text-input/TextInput'
 import { StoreContext } from '../../contexts/store-context'
 import {
@@ -41,12 +42,14 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            <CustomDivider />
             <TextInput
               label='Password'
               type='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <CustomDivider />
             <div className='d-grid gap-1'>
               <button type='submit' className='btn btn-primary'>
                 Login
