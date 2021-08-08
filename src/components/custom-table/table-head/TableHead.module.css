@@ -6,3 +6,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.tableHead th div:first-child {
+  text-align: center;
+}
+
+.tableHead th div:nth-child(2) {
+  width: 100%;
+}
