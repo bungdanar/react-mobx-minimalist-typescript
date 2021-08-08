@@ -3,19 +3,19 @@ import { action, computed, makeObservable, observable, toJS } from 'mobx'
 export class CommonClientSideTableStore<T> {
   constructor() {
     makeObservable(this, {
-      tableData: observable,
-      plainTableData: computed,
-      handleSetTableData: action,
+      data: observable,
+      plainData: computed,
+      setData: action,
     })
   }
 
-  tableData: T[] = []
+  data: T[] = []
 
-  get plainTableData() {
-    return toJS(this.tableData)
+  get plainData() {
+    return toJS(this.data)
   }
 
-  handleSetTableData = (data: T[]) => {
-    this.tableData = data
+  setData = (data: T[]) => {
+    this.data = data
   }
 }

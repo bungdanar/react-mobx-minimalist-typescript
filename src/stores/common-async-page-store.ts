@@ -3,35 +3,35 @@ import { action, makeObservable, observable } from 'mobx'
 export class CommonAsyncPageStore {
   constructor() {
     makeObservable(this, {
-      pageLoading: observable,
-      pageErrMessage: observable,
+      loading: observable,
+      errMessage: observable,
 
-      handleResetPageState: action,
-      handleFetchPageDataInit: action,
-      handleFetchPageDataSucceed: action,
-      handleFetchPageDataFailed: action,
+      handleResetState: action,
+      handleFetchInit: action,
+      handleFetchSucceed: action,
+      handleFetchFailed: action,
     })
   }
 
-  pageLoading: boolean = false
-  pageErrMessage: string = ''
+  loading: boolean = false
+  errMessage: string = ''
 
-  handleResetPageState = () => {
-    this.pageLoading = false
-    this.pageErrMessage = ''
+  handleResetState = () => {
+    this.loading = false
+    this.errMessage = ''
   }
 
-  handleFetchPageDataInit = () => {
-    this.pageLoading = true
-    this.pageErrMessage = ''
+  handleFetchInit = () => {
+    this.loading = true
+    this.errMessage = ''
   }
 
-  handleFetchPageDataSucceed = () => {
-    this.pageLoading = false
+  handleFetchSucceed = () => {
+    this.loading = false
   }
 
-  handleFetchPageDataFailed = (errMessage: string) => {
-    this.pageLoading = false
-    this.pageErrMessage = errMessage
+  handleFetchFailed = (errMessage: string) => {
+    this.loading = false
+    this.errMessage = errMessage
   }
 }

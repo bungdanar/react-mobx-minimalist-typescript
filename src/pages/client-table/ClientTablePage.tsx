@@ -11,7 +11,7 @@ import { generateErrMessage } from '../../utils/handle-error'
 const ClientTablePage = observer(() => {
   const {
     clientTablePageStore: {
-      wrapperForSucceedFetch,
+      handleFetchSucceed: wrapperForSucceedFetch,
       pageDataStore,
       tableDataStore,
     },
@@ -32,7 +32,7 @@ const ClientTablePage = observer(() => {
 
   const handleFetchData = useCallback(async () => {
     if (isMounted.current) {
-      pageDataStore.handleFetchPageDataInit()
+      pageDataStore.handleFetchInit()
     }
 
     try {
@@ -44,7 +44,7 @@ const ClientTablePage = observer(() => {
     } catch (error) {
       if (isMounted.current) {
         const errMessage = generateErrMessage(error)
-        pageDataStore.handleFetchPageDataFailed(errMessage)
+        pageDataStore.handleFetchFailed(errMessage)
       }
     }
   }, [pageDataStore, wrapperForSucceedFetch])
@@ -65,16 +65,16 @@ const ClientTablePage = observer(() => {
         <CustomCard>
           <div>User Management</div>
           {(function () {
-            if (pageDataStore.pageLoading) {
+            if (pageDataStore.loading) {
               return <div>Loading...</div>
             } else {
-              if (pageDataStore.pageErrMessage.trim() !== '') {
-                return <div>{pageDataStore.pageErrMessage}</div>
+              if (pageDataStore.errMessage.trim() !== '') {
+                return <div>{pageDataStore.errMessage}</div>
               } else {
                 return (
                   <ClientSideTable
                     columns={columns}
-                    data={tableDataStore.tableData}
+                    data={tableDataStore.data}
                   />
                 )
               }

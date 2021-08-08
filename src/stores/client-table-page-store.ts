@@ -11,9 +11,9 @@ export class ClientTablePageStore {
     this.pageDataStore = new CommonAsyncPageStore()
   }
 
-  wrapperForSucceedFetch = (data: User[]) => {
-    this.pageDataStore.handleFetchPageDataSucceed()
-    this.tableDataStore.handleSetTableData(data)
+  handleFetchSucceed = (data: User[]) => {
+    this.pageDataStore.handleFetchSucceed()
+    this.tableDataStore.setData(data)
   }
 }
 
