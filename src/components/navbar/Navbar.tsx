@@ -13,7 +13,10 @@ import styles from './Navbar.module.css'
 const Navbar = observer(() => {
   const { currentUser, serverLogout } = useContext(StoreContext).userStore
 
-  const rootStyles = [styles.customNavbar, 'navbar navbar-dark bg-dark']
+  const rootStyles = [
+    styles.customNavbar,
+    'navbar fixed-top navbar-dark bg-dark',
+  ]
   const logoutStyles = [styles.logout, 'navbar-brand']
 
   const handleLogout = async () => {
