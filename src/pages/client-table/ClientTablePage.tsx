@@ -4,17 +4,14 @@ import { Column } from 'react-table'
 import { userApi } from '../../api/user'
 import CustomCard from '../../components/custom-card/CustomCard'
 import ClientSideTable from '../../components/custom-table/client-side-table'
+import PageSpinner from '../../components/page-spinner/PageSpinner'
 import { User } from '../../data-types/user'
 import { useStore } from '../../hooks/use-store'
 import { generateErrMessage } from '../../utils/handle-error'
 
 const ClientTablePage = observer(() => {
   const {
-    clientTablePageStore: {
-      handleFetchSucceed: wrapperForSucceedFetch,
-      pageDataStore,
-      tableDataStore,
-    },
+    clientTablePageStore: { handleFetchSucceed, pageDataStore, tableDataStore },
   } = useStore()
   const isMounted = useRef(true)
 
@@ -39,7 +36,7 @@ const ClientTablePage = observer(() => {
       const { data } = await userApi.getAll()
 
       if (isMounted.current) {
-        wrapperForSucceedFetch(data)
+        handleFetchSucceed(data)
       }
     } catch (error) {
       if (isMounted.current) {
@@ -47,7 +44,7 @@ const ClientTablePage = observer(() => {
         pageDataStore.handleFetchFailed(errMessage)
       }
     }
-  }, [pageDataStore, wrapperForSucceedFetch])
+  }, [pageDataStore, handleFetchSucceed])
 
   useEffect(() => {
     handleFetchData()
@@ -64,22 +61,12 @@ const ClientTablePage = observer(() => {
       <div className='col-sm-8'>
         <CustomCard>
           <div>User Management</div>
-          {(function () {
-            if (pageDataStore.loading) {
-              return <div>Loading...</div>
-            } else {
-              if (pageDataStore.errMessage.trim() !== '') {
-                return <div>{pageDataStore.errMessage}</div>
-              } else {
-                return (
-                  <ClientSideTable
-                    columns={columns}
-                    data={tableDataStore.data}
-                  />
-                )
-              }
-            }
-          })()}
+          <PageSpinner
+            loading={pageDataStore.loading}
+            errMessage={pageDataStore.errMessage}
+          >
+            <ClientSideTable columns={columns} data={tableDataStore.data} />
+          </PageSpinner>
         </CustomCard>
       </div>
     </div>
