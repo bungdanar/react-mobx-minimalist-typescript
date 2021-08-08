@@ -19,7 +19,9 @@ interface UserParams {
 }
 
 const ServerTablePage = observer(() => {
-  const { serverTablePageStore } = useStore()
+  const {
+    serverTablePageStore: { tableDataStore },
+  } = useStore()
 
   const fetchIdRef = useRef(0)
   const isMounted = useRef(true)
@@ -65,7 +67,7 @@ const ServerTablePage = observer(() => {
       const fetchId = ++fetchIdRef.current
 
       if (isMounted.current) {
-        serverTablePageStore.handleFetchTableDataInit()
+        tableDataStore.handleFetchInit()
       }
 
       if (fetchId === fetchIdRef.current) {
@@ -73,7 +75,7 @@ const ServerTablePage = observer(() => {
           const { data } = await userApi.getAllPaginated(params)
 
           if (isMounted.current) {
-            serverTablePageStore.handleFetchTableDataSucceed({
+            tableDataStore.handleFetchSucceed({
               data: data.rows,
               pageCount: Math.ceil(data.count / pageSize),
               rowCount: data.count,
@@ -82,12 +84,12 @@ const ServerTablePage = observer(() => {
         } catch (error) {
           if (isMounted.current) {
             const errMessage = generateErrMessage(error)
-            serverTablePageStore.handleFetchTableDataFailed(errMessage)
+            tableDataStore.handleFetchFailed(errMessage)
           }
         }
       }
     },
-    [fetchIdRef, serverTablePageStore]
+    [fetchIdRef, tableDataStore]
   )
 
   useEffect(() => {
@@ -103,12 +105,12 @@ const ServerTablePage = observer(() => {
           <div>User Management</div>
           <ServerSideTable
             columns={columns}
-            data={serverTablePageStore.tableData}
+            data={tableDataStore.data}
             fetchData={fetchData}
-            loading={serverTablePageStore.tableLoading}
-            pageCount={serverTablePageStore.tablePageCount}
-            rowCount={serverTablePageStore.tableRowCount}
-            errMessage={serverTablePageStore.tableErrMessage}
+            loading={tableDataStore.loading}
+            pageCount={tableDataStore.pageCount}
+            rowCount={tableDataStore.rowCount}
+            errMessage={tableDataStore.errMessage}
             maxSizePerPage={5}
           />
         </CustomCard>

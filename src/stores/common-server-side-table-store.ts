@@ -3,50 +3,50 @@ import { action, computed, makeObservable, observable, toJS } from 'mobx'
 export class CommonServerSideTableStore<T> {
   constructor() {
     makeObservable(this, {
-      tableData: observable,
-      tableLoading: observable,
-      tableErrMessage: observable,
-      tablePageCount: observable,
-      tableRowCount: observable,
+      data: observable,
+      loading: observable,
+      errMessage: observable,
+      pageCount: observable,
+      rowCount: observable,
 
-      plainTableData: computed,
+      plainData: computed,
 
-      handleSetTableData: action,
-      handleResetTableState: action,
-      handleFetchTableDataInit: action,
-      handleFetchTableDataSucceed: action,
-      handleFetchTableDataFailed: action,
+      setData: action,
+      handleResetState: action,
+      handleFetchInit: action,
+      handleFetchSucceed: action,
+      handleFetchFailed: action,
     })
   }
 
-  tableData: T[] = []
-  tableLoading: boolean = false
-  tableErrMessage: string = ''
-  tablePageCount: number = 0
-  tableRowCount: number = 0
+  data: T[] = []
+  loading: boolean = false
+  errMessage: string = ''
+  pageCount: number = 0
+  rowCount: number = 0
 
-  get plainTableData() {
-    return toJS(this.tableData)
+  get plainData() {
+    return toJS(this.data)
   }
 
-  handleSetTableData = (data: T[]) => {
-    this.tableData = data
+  setData = (data: T[]) => {
+    this.data = data
   }
 
-  handleResetTableState = () => {
-    this.tableData = []
-    this.tableLoading = false
-    this.tableErrMessage = ''
-    this.tablePageCount = 0
-    this.tableRowCount = 0
+  handleResetState = () => {
+    this.data = []
+    this.loading = false
+    this.errMessage = ''
+    this.pageCount = 0
+    this.rowCount = 0
   }
 
-  handleFetchTableDataInit = () => {
-    this.tableLoading = true
-    this.tableErrMessage = ''
+  handleFetchInit = () => {
+    this.loading = true
+    this.errMessage = ''
   }
 
-  handleFetchTableDataSucceed = ({
+  handleFetchSucceed = ({
     data,
     pageCount,
     rowCount,
@@ -55,17 +55,17 @@ export class CommonServerSideTableStore<T> {
     pageCount: number
     rowCount: number
   }) => {
-    this.tableLoading = false
-    this.tableData = data
-    this.tablePageCount = pageCount
-    this.tableRowCount = rowCount
+    this.loading = false
+    this.data = data
+    this.pageCount = pageCount
+    this.rowCount = rowCount
   }
 
-  handleFetchTableDataFailed = (errMessage: string) => {
-    this.tableLoading = false
-    this.tableErrMessage = errMessage
-    this.tableData = []
-    this.tablePageCount = 0
-    this.tableRowCount = 0
+  handleFetchFailed = (errMessage: string) => {
+    this.loading = false
+    this.errMessage = errMessage
+    this.data = []
+    this.pageCount = 0
+    this.rowCount = 0
   }
 }
