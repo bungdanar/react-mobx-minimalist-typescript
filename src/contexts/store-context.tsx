@@ -4,22 +4,26 @@ import userStore, { UserStore } from '../stores/user-store'
 import clientTableStore, {
   ClientTableStore,
 } from '../stores/client-table-store'
-import serverTableStore, {
-  ServerTableStore,
-} from '../stores/server-table-store'
+import serverTablePageStore, {
+  ServerTablePageStore,
+} from '../stores/server-table-page-store'
 
 configure({ enforceActions: 'observed' })
 
 export const StoreContext = createContext<{
   userStore: UserStore
   clientTableStore: ClientTableStore
-  serverTableStore: ServerTableStore
-}>({ userStore, clientTableStore, serverTableStore })
+  serverTablePageStore: ServerTablePageStore
+}>({ userStore, clientTableStore, serverTablePageStore })
 
 export const StoreProvider: FC = ({ children }) => {
   return (
     <StoreContext.Provider
-      value={{ userStore, clientTableStore, serverTableStore }}
+      value={{
+        userStore,
+        clientTableStore,
+        serverTablePageStore,
+      }}
     >
       {children}
     </StoreContext.Provider>
