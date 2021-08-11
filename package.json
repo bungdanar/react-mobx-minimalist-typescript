@@ -53,6 +53,6 @@
   "devDependencies": {
     "@types/qs": "^6.9.6",
     "@types/react-router-dom": "^5.1.7",
-    "@types/react-table": "^7.0.29"
+    "@types/react-table": "^7.7.2"
   }
 }
