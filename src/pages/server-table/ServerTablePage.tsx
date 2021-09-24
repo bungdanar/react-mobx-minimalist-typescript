@@ -1,22 +1,14 @@
 import { observer } from 'mobx-react-lite'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Column } from 'react-table'
-import { userApi } from '../../api/user'
+import { userApi, UserParams } from '../../api/user'
 import CustomCard from '../../components/custom-card/CustomCard'
 import ServerSideTable, {
   FetchDataProps,
 } from '../../components/custom-table/server-side-table'
-import { CriteriaModifier } from '../../data-types/criteria-modifier'
 import { User } from '../../data-types/user'
 import { useStore } from '../../hooks/use-store'
 import { generateErrMessage } from '../../utils/handle-error'
-
-interface UserParams {
-  limit: number
-  offset: number
-  sort: string[]
-  name?: CriteriaModifier<string>
-}
 
 const ServerTablePage = observer(() => {
   const {

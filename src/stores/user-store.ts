@@ -1,5 +1,5 @@
 import { observable, action, makeObservable } from 'mobx'
-import { userApi } from '../api/user'
+import { userApi, UserLoginPayload } from '../api/user'
 import { User } from '../data-types/user'
 
 export class UserStore {
@@ -32,10 +32,7 @@ export class UserStore {
     this.timeoutTimer = timer
   }
 
-  login = async (payload: {
-    email: string
-    password: string
-  }): Promise<void> => {
+  login = async (payload: UserLoginPayload): Promise<void> => {
     try {
       const response = await userApi.login(payload)
       const user = response.data
